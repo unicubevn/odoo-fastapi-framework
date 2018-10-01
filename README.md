@@ -1,6 +1,6 @@
-[![Runbot Status](https://runbot.odoo-community.org/runbot/badge/flat/271/10.0.svg)](https://runbot.odoo-community.org/runbot/repo/github-com-oca-rest-framework-271)
-[![Build Status](https://travis-ci.org/OCA/rest-framework.svg?branch=10.0)](https://travis-ci.org/OCA/rest-framework)
-[![codecov](https://codecov.io/gh/OCA/rest-framework/branch/10.0/graph/badge.svg)](https://codecov.io/gh/OCA/rest-framework)
+[![Runbot Status](https://runbot.odoo-community.org/runbot/badge/flat/271/9.0.svg)](https://runbot.odoo-community.org/runbot/repo/github-com-oca-rest-framework-271)
+[![Build Status](https://travis-ci.org/OCA/rest-framework.svg?branch=9.0)](https://travis-ci.org/OCA/rest-framework)
+[![codecov](https://codecov.io/gh/OCA/rest-framework/branch/9.0/graph/badge.svg)](https://codecov.io/gh/OCA/rest-framework)
 
 # REST Framework
 
@@ -12,8 +12,8 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
-[base_rest](base_rest/) | 10.0.1.0.0 | Develop your own high level REST APIs for Odoo thanks to this addon.
-[base_rest_demo](base_rest_demo/) | 10.0.1.0.0 | Demo addon for Base REST
+[base_rest](base_rest/) | 9.0.1.0.0 | Develop your own high level REST APIs for Odoo thanks to this addon.
+[base_rest_demo](base_rest_demo/) | 9.0.1.0.0 | Demo addon for Base REST
 
 [//]: # (end addons)
 

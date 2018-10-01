@@ -4,11 +4,11 @@
 
 from werkzeug.exceptions import MethodNotAllowed
 
-from odoo import _
-from odoo.addons.component.core import Component
-from odoo.exceptions import (
+from openerp import _
+from openerp.addons.component.core import Component
+from openerp.exceptions import (
     UserError, MissingError, AccessError, AccessDenied, ValidationError)
-from odoo.http import SessionExpiredException
+from openerp.http import SessionExpiredException
 
 
 class ExceptionService(Component):

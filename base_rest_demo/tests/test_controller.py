@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from odoo.http import controllers_per_module
+from openerp.http import controllers_per_module
 
 from .common import CommonCase
 from ..controllers.main import BaseRestDemoPrivateApiController,\
@@ -52,13 +52,13 @@ class TestController(CommonCase):
         self.assertEqual(len(controllers), 2)
 
         self.assertIn(
-            ('odoo.addons.base_rest_demo.controllers.main.'
+            ('openerp.addons.base_rest_demo.controllers.main.'
              'BaseRestDemoPrivateApiController',
              BaseRestDemoPrivateApiController),
             controllers
         )
         self.assertIn(
-            ('odoo.addons.base_rest_demo.controllers.main.'
+            ('openerp.addons.base_rest_demo.controllers.main.'
              'BaseRestDemoPublicApiController',
              BaseRestDemoPublicApiController),
             controllers
