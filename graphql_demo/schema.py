@@ -28,7 +28,7 @@ class Partner(OdooObjectType):
     contacts = graphene.List(graphene.NonNull(lambda: Partner), required=True)
 
     def resolve_country(self, info):
-        return self.country_id
+        return self.country_id or None
 
     def resolve_contacts(self, info):
         return self.child_ids
