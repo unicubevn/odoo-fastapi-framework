@@ -107,7 +107,7 @@
                 data = new FormData();
                 data.append('query', graphQLParams['query']);
                 if (graphQLParams['variables']) {
-                    data.append('variables', graphQLParams['variables']);
+                    data.append('variables', JSON.stringify(graphQLParams['variables']));
                 }
                 if (graphQLParams['operationName']) {
                     data.append('operationName', graphQLParams['operationName']);
