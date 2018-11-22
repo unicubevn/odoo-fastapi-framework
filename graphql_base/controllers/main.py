@@ -32,19 +32,19 @@ class GraphQLControllerMixin(object):
         http.Root.get_request = get_request
 
     def _parse_body(self):
-        request = http.request.httprequest
+        req = http.request.httprequest
         # We use mimetype here since we don't need the other
         # information provided by content_type
-        content_type = request.mimetype
+        content_type = req.mimetype
         if content_type == "application/graphql":
-            return {"query": request.data.decode("utf8")}
+            return {"query": req.data.decode("utf8")}
         elif content_type == "application/json":
-            return load_json_body(request.data.decode("utf8"))
+            return load_json_body(req.data.decode("utf8"))
         elif content_type in (
             "application/x-www-form-urlencoded",
             "multipart/form-data",
         ):
-            return request.form
+            return http.request.params
         return {}
 
     def _process_request(self, schema, data, catch):
