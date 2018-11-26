@@ -7,20 +7,26 @@ from odoo import fields
 
 
 def odoo_attr_resolver(attname, default_value, root, info, **args):
-    """An attr resolver that converts False to None.
+    """An attr resolver that is specialized for Odoo recordsets.
 
-    Except for Odoo Boolean fields.
-
+    It converts False to None, except for Odoo Boolean fields.
     This is necessary because Odoo null values are often represented
     as False, and graphene would convert a String field with value False
     to "false".
+
+    It converts datetimes to the user timezone.
+
+    It also raises an error if the attribute is not present, ignoring
+    any default value, so as to return if the schema declares a field
+    that is not present in the underlying Odoo model.
     """
-    value = getattr(root, attname, default_value)
+    value = getattr(root, attname)
+    field = root._fields.get(attname)
     if value is False:
-        if hasattr(root, "_fields"):
-            field = root._fields.get(attname)
-            if not isinstance(field, fields.Boolean):
-                return None
+        if not isinstance(field, fields.Boolean):
+            return None
+    elif isinstance(field, fields.Datetime):
+        return fields.Datetime.context_timestamp(root, value)
     return value
 
 
