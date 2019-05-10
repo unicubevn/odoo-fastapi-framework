@@ -52,13 +52,13 @@ class TestController(CommonCase):
         self.assertEqual(len(controllers), 2)
 
         self.assertIn(
-            ('odoo.addons.base_rest_demo.controllers.main.'
+            ('openerp.addons.base_rest_demo.controllers.main.'
              'BaseRestDemoPrivateApiController',
              BaseRestDemoPrivateApiController),
             controllers
         )
         self.assertIn(
-            ('odoo.addons.base_rest_demo.controllers.main.'
+            ('openerp.addons.base_rest_demo.controllers.main.'
              'BaseRestDemoPublicApiController',
              BaseRestDemoPublicApiController),
             controllers
