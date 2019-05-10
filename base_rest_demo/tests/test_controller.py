@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from odoo.http import controllers_per_module
+from openerp.http import controllers_per_module
 
 from .common import CommonCase
 from ..controllers.main import BaseRestDemoPrivateApiController,\

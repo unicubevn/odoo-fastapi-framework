@@ -8,10 +8,10 @@ import logging
 import textwrap
 from collections import OrderedDict
 
-from odoo.addons.component.core import AbstractComponent
-from odoo.exceptions import UserError, ValidationError
-from odoo.http import request
-from odoo.tools.translate import _
+from openerp.addons.component.core import AbstractComponent
+from openerp.exceptions import UserError, ValidationError
+from openerp.http import request
+from openerp.tools.translate import _
 from werkzeug.exceptions import NotFound
 
 from ..core import _rest_services_databases

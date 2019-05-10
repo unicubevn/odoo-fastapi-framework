@@ -3,10 +3,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 import json
 
-import odoo.tests.common
-import odoo.tools
-from odoo.addons.base_rest.tests.common import RegistryMixin
-from odoo.tests import HttpCase
+import openerp.tests.common
+import openerp.tools
+from openerp.addons.base_rest.tests.common import RegistryMixin
+from openerp.tests import HttpCase
 
 
 @odoo.tests.common.at_install(False)

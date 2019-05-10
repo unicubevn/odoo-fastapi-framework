@@ -7,8 +7,8 @@ import logging
 from contextlib import contextmanager
 from urlparse import urljoin
 
-from odoo.addons.component.core import WorkContext, _get_addon_name
-from odoo.http import Controller, ControllerType, Response, request, route
+from openerp.addons.component.core import WorkContext, _get_addon_name
+from openerp.http import Controller, ControllerType, Response, request, route
 from werkzeug.exceptions import BadRequest
 
 from ..core import _rest_controllers_per_module

@@ -10,10 +10,10 @@ import sys
 import traceback
 import datetime
 from collections import defaultdict
-from odoo.exceptions import (
+from openerp.exceptions import (
     UserError, MissingError, AccessError, AccessDenied, ValidationError)
-from odoo.http import HttpRequest, Root, request, SessionExpiredException
-from odoo.tools.config import config
+from openerp.http import HttpRequest, Root, request, SessionExpiredException
+from openerp.tools.config import config
 from werkzeug.exceptions import BadRequest, NotFound, Forbidden, \
     InternalServerError, HTTPException, Unauthorized
 from werkzeug.utils import escape

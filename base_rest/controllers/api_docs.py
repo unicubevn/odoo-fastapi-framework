@@ -5,8 +5,8 @@
 import json
 from contextlib import contextmanager
 
-from odoo.addons.component.core import WorkContext
-from odoo.http import Controller, request, route
+from openerp.addons.component.core import WorkContext
+from openerp.http import Controller, request, route
 
 from .main import _PseudoCollection
 from ..core import _rest_services_databases

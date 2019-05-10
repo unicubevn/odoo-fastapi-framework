@@ -11,8 +11,8 @@ Register available REST services at the build of a registry.
 This code is inspired by ``odoo.addons.component.builder.ComponentBuilder``
 
 """
-import odoo
-from odoo import api, models, http
+import openerp
+from openerp import api, models, http
 from ..core import (
     _rest_services_databases,
     _rest_controllers_per_module,
