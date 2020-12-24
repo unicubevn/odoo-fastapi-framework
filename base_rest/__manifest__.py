@@ -22,5 +22,5 @@
     "external_dependencies": {
         "python": ["cerberus", "pyquerystring", "parse-accept-language", "apispec"]
     },
-    "installable": True,
+    "installable": False,
 }
