@@ -45,8 +45,7 @@ class RestControllerType(ControllerType):
         root_path = getattr(cls, "_root_path", None)
         collection_name = getattr(cls, "_collection_name", None)
         if root_path and collection_name:
-            if not hasattr(cls, "_module"):
-                cls._module = _get_addon_name(cls.__module__)
+            cls._module = _get_addon_name(cls.__module__)
             _rest_controllers_per_module[cls._module].append(
                 {"root_path": root_path, "collection_name": collection_name}
             )
@@ -166,6 +165,7 @@ class RestController(Controller):
     _cors = None
     # Whether CSRF protection should be enabled for the route.
     _csrf = False
+    _component_context_provider = "component_context_provider"
 
     __metaclass__ = RestControllerType  # noqa: B303
 
@@ -175,7 +175,15 @@ class RestController(Controller):
         context
         :return: dict of key value.
         """
-        return {"request": request}
+        collection = self.collection
+        work = WorkContext(
+            model_name="rest.service.registration",
+            collection=collection,
+            request=request,
+            controller=self,
+        )
+        provider = work.component(usage=self._component_context_provider)
+        return provider._get_component_context()
 
     def make_response(self, data):
         if isinstance(data, Response):

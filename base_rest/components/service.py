@@ -381,3 +381,11 @@ class BaseRestService(AbstractComponent):
             # sort paramters to ease comparison into unittests
             parameters.sort(key=lambda a: a["name"])
         return paths
+
+    @property
+    def request(self):
+        return self.work.request
+
+    @property
+    def controller(self):
+        return self.work.controller
