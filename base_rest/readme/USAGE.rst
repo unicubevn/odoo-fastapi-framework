@@ -111,7 +111,3 @@ to access to your services
     ], methods=['DELETE'], auth="user", csrf=False)
     def delete(self, _service_name, _id):
         return self._process_method(_service_name, 'delete', _id)
-
-
-The HTTP GET 'http://my_odoo/my_services_api/ping' will be dispatched to the
-method ``PingService.search``

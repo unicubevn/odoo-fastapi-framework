@@ -47,7 +47,7 @@ class TestController(CommonCase):
         # at the end of the start process, our tow controllers must into the
         # controller registered
         controllers = controllers_per_module["base_rest_demo"]
-        self.assertEqual(len(controllers), 2)
+        self.assertEqual(len(controllers), 4)
 
         self.assertIn(
             (
