@@ -21,6 +21,10 @@ class TestOpenAPI(CommonCase):
         self._fix_server_url(canonical_def)
         self.assertFalse(jsondiff.diff(openapi_def, canonical_def))
 
+    def test_partner_api(self):
+        service = self.private_services_env.component(usage="partner")
+        self.assertOpenApiDef(service, "partner_api.json", "user")
+
     def test_ping_api(self):
         ping_service = self.public_services_env.component(usage="ping")
         openapi_def = ping_service.to_openapi()
@@ -34,3 +38,7 @@ class TestOpenAPI(CommonCase):
         canonical_def = get_canonical_json("partner_image_api.json")
         self._fix_server_url(canonical_def)
         self.assertFalse(jsondiff.diff(openapi_def, canonical_def))
+
+    def test_partner_pydantic_api(self):
+        service = self.new_api_services_env.component(usage="partner_pydantic")
+        self.assertOpenApiDef(service, "partner_pydantic_api.json", "public")
