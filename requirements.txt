@@ -1,6 +1,7 @@
 cerberus
 pyquerystring
 parse-accept-language
+contextvars;python_version<"3.7"
 jsondiff
 graphene
 graphql-server-core
