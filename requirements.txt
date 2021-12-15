@@ -10,4 +10,4 @@ marshmallow-objects>=2.0.0
 apispec
 pydantic
 pyquerystring
-typing-extensions>=4.0.1
+typing-extensions
