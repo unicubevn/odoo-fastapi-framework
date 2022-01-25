@@ -6,7 +6,7 @@
     "summary": """
         Base Rest: Add support for the auth_jwt security policy into the
         openapi documentation""",
-    "version": "14.0.1.0.0",
+    "version": "10.0.1.0.0",
     "license": "LGPL-3",
     "author": "ACSONE SA/NV,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/rest-framework",
@@ -14,9 +14,4 @@
     "maintainers": ["lmignon"],
     "installable": True,
     "auto_install": True,
-    "external_dependencies": {
-        "python": [
-            "apispec>=4.0.0",
-        ]
-    },
 }

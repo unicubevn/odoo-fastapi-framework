@@ -3,3 +3,4 @@ pyquerystring
 parse-accept-language
 jsondiff
 unittest2
+odoo10-addon-auth-jwt @ git+https://github.com/oca/server-auth.git@ref/pull/281/head#subdirectory=setup/auth_jwt
