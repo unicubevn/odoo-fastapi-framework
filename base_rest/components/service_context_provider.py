@@ -10,7 +10,7 @@ class BaseRestServiceContextProvider(Component):
     _usage = "component_context_provider"
 
     def __init__(self, work_context):
-        super().__init__(work_context)
+        super(BaseRestServiceContextProvider, self).__init__(work_context)
         self.request = work_context.request
         # pylint: disable=assignment-from-none
         self.authenticated_partner_id = self._get_authenticated_partner_id()
