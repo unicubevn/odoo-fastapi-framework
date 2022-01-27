@@ -129,6 +129,8 @@ class RestControllerType(ControllerType):
                 routing["auth"] = auth
             if "cors" not in routing:
                 routing["cors"] = klass._cors
+                if klass._cors and "OPTIONS" not in methods:
+                    methods.append("OPTIONS")
             if "csrf" not in routing:
                 routing["csrf"] = klass._csrf
             routing["rest_routes_patched"] = True
