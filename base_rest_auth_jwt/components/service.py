@@ -16,7 +16,9 @@ class BaseRestService(AbstractComponent):
             "name": "jwt",
             "description": "Enter JWT Bearer Token ** only **",
         }
-        security_definitions = openapi.get("securityDefinitions", {})
+        components = openapi.get("components", {})
+        security_definitions = openapi.get("securitySchemes", {})
         security_definitions["jwt"] = jwt_scheme
-        openapi["securityDefinitions"] = security_definitions
+        components["securitySchemes"] = security_definitions
+        openapi["components"] = components
         return openapi
