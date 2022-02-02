@@ -9,8 +9,13 @@
     "license": "LGPL-3",
     "author": "ACSONE SA/NV,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/rest-framework",
-    "depends": ["base_rest", "pydantic"],
+    "depends": ["base_rest"],
     "data": [],
     "demo": [],
     "installable": True,
+    "external_dependencies": {
+        "python": [
+            "pydantic",
+        ]
+    },
 }

@@ -5,9 +5,8 @@ from odoo import _
 from odoo.exceptions import UserError
 
 from odoo.addons.base_rest import restapi
-from odoo.addons.pydantic.models import BaseModel
 
-from pydantic import ValidationError, validate_model
+from pydantic import BaseModel, ValidationError, validate_model
 
 
 def replace_ref_in_schema(item, original_schema):
