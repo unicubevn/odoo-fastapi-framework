@@ -54,19 +54,3 @@ class GenericOdooGetter(GetterDict):
             if field.type in ["one2many", "many2many"]:
                 return list(res)
         return res
-
-
-# this is duplicated from odoo.models.MetaModel._get_addon_name() which we
-# unfortunately can't use because it's an instance method and should have been
-# a @staticmethod
-def _get_addon_name(full_name: str) -> str:
-    # The (Odoo) module name can be in the ``odoo.addons`` namespace
-    # or not. For instance, module ``sale`` can be imported as
-    # ``odoo.addons.sale`` (the right way) or ``sale`` (for backward
-    # compatibility).
-    module_parts = full_name.split(".")
-    if len(module_parts) > 2 and module_parts[:2] == ["odoo", "addons"]:
-        addon_name = full_name.split(".")[2]
-    else:
-        addon_name = full_name.split(".")[0]
-    return addon_name
