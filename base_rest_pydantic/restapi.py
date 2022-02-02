@@ -103,6 +103,7 @@ class PydanticModel(restapi.RestMethodParam):
             for name, sch in definitions.items():
                 if name in spec.components.schemas:
                     continue
+                sch = replace_ref_in_schema(sch, sch)
                 spec.components.schema(name, sch)
             schema = replace_ref_in_schema(schema, schema)
             spec.components.schema(schema_name, schema)
