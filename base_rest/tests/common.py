@@ -27,9 +27,8 @@ class RegistryMixin(object):
             )
             # build the services of the current tested addon
             current_addon = _get_addon_name(cls.__module__)
-            env["rest.service.registration"].load_services(
-                current_addon, services_registry
-            )
+            service_registration.load_services(current_addon, services_registry)
+            service_registration._build_controllers_routes(services_registry)
 
 
 class BaseRestCase(SavepointComponentCase, RegistryMixin):

@@ -32,46 +32,43 @@ class BaseRESTService(AbstractComponent):
     # can be overridden to enable logging of requests to DB
     _log_calls_in_db = False
 
-    def dispatch(self, method_name, _id=None, params=None):
+    def dispatch(self, method_name, *args, **kwargs):
         if not self._db_logging_active(method_name):
-            return super(BaseRESTService, self).dispatch(
-                method_name, _id=_id, params=params
-            )
-        return self._dispatch_with_db_logging(method_name, _id=_id, params=params)
+            return super(BaseRESTService, self).dispatch(method_name, *args, **kwargs)
+        return self._dispatch_with_db_logging(method_name, *args, **kwargs)
 
-    def _dispatch_with_db_logging(self, method_name, _id=None, params=None):
+    def _dispatch_with_db_logging(self, method_name, *args, **kwargs):
         # TODO: consider refactoring thi using a savepoint as described here
         # https://github.com/OCA/rest-framework/pull/106#pullrequestreview-582099258
         try:
-            result = super(BaseRESTService, self).dispatch(
-                method_name, _id=_id, params=params
-            )
+            result = super(BaseRESTService, self).dispatch(method_name, *args, **kwargs)
         except exceptions.UserError as orig_exception:
             self._dispatch_exception(
                 method_name,
                 RESTServiceUserErrorException,
                 orig_exception,
-                _id,
-                params=params,
+                *args,
+                **kwargs
             )
         except exceptions.ValidationError as orig_exception:
             self._dispatch_exception(
                 method_name,
                 RESTServiceValidationErrorException,
                 orig_exception,
-                _id,
-                params=params,
+                *args,
+                **kwargs
             )
         except Exception as orig_exception:
             self._dispatch_exception(
                 method_name,
                 RESTServiceDispatchException,
                 orig_exception,
-                _id,
-                params=params,
+                *args,
+                **kwargs
             )
+        log_kwargs = dict(dict(**kwargs), result=result)
         log_entry = self._log_call_in_db(
-            self.env, request, method_name, _id=_id, params=params, result=result
+            self.env, request, method_name, *args, **log_kwargs
         )
         if log_entry:
             log_entry_url = self._get_log_entry_url(log_entry)
@@ -79,21 +76,17 @@ class BaseRESTService(AbstractComponent):
         return result
 
     def _dispatch_exception(
-        self, method_name, exception_klass, orig_exception, _id=None, params=None
+        self, method_name, exception_klass, orig_exception, *args, **kwargs
     ):
         tb = traceback.format_exc()
+
         # TODO: how to test this? Cannot rollback nor use another cursor
         self.env.cr.rollback()
+        log_kwargs = dict(dict(**kwargs), traceback=tb, orig_exception=orig_exception)
         with registry(self.env.cr.dbname).cursor() as cr:
             env = self.env(cr=cr)
             log_entry = self._log_call_in_db(
-                env,
-                request,
-                method_name,
-                _id=_id,
-                params=params,
-                traceback=tb,
-                orig_exception=orig_exception,
+                env, request, method_name, *args, **log_kwargs
             )
             log_entry_url = self._get_log_entry_url(log_entry)
         # UserError and alike have `name` attribute to store the msg
@@ -118,15 +111,15 @@ class BaseRESTService(AbstractComponent):
     def _log_call_header_strip(self):
         return ("Cookie", "Api-Key")
 
-    def _log_call_in_db_values(self, _request, _id=None, params=None, **kw):
+    def _log_call_in_db_values(self, _request, *args, **kw):
         httprequest = _request.httprequest
         headers = dict(httprequest.headers)
         for header_key in self._log_call_header_strip:
             if header_key in headers:
                 headers[header_key] = "<redacted>"
-        if _id:
-            params = dict(params or {}, args=[_id])
-
+        params = kw.get("params", {})
+        if args:
+            params = dict(params, args=args)
         result = kw.get("result")
         error = kw.get("traceback")
         orig_exception = kw.get("orig_exception")
@@ -150,8 +143,8 @@ class BaseRESTService(AbstractComponent):
             "state": "success" if result else "failed",
         }
 
-    def _log_call_in_db(self, env, _request, method_name, _id=None, params=None, **kw):
-        values = self._log_call_in_db_values(_request, _id, params=params, **kw)
+    def _log_call_in_db(self, env, _request, method_name, *args, **kw):
+        values = self._log_call_in_db_values(_request, *args, **kw)
         enabled_states = self._get_matching_active_conf(method_name)
         if not values or enabled_states and values["state"] not in enabled_states:
             return

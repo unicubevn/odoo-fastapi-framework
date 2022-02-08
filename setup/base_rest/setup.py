@@ -6,6 +6,7 @@ setuptools.setup(
         'external_dependencies_override': {
             'python': {
                 'accept_language': 'parse-accept-language',
+                'apispec': "apispec<3.0.0"
             },
         },
     }
