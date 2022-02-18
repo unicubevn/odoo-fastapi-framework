@@ -119,6 +119,8 @@ def _get_field_props(spec):  # noqa: C901
             resp["items"] = _get_field_props(spec["schema"])
         else:
             resp["items"] = {"type": "string"}
+            if "allowed" in spec:
+                resp["items"]["enum"] = resp.pop("enum")
     else:
         try:
             resp["format"] = json_type[1]
