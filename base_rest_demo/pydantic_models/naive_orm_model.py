@@ -1,10 +1,12 @@
 # Copyright 2021 ACSONE SA/NV
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo.addons.pydantic import models, utils
+from odoo.addons.pydantic import utils
+
+from pydantic import BaseModel
 
 
-class NaiveOrmModel(models.BaseModel):
+class NaiveOrmModel(BaseModel):
     class Config:
         orm_mode = True
         getter_dict = utils.GenericOdooGetter
