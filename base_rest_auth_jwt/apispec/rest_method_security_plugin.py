@@ -33,7 +33,7 @@ class RestMethodSecurityPlugin(BasePlugin):
         if not operations:
             return
         auth = routing.get("auth", self.spec._params.get("default_auth"))
-        if auth and auth.startswith("jwt"):
+        if auth and (auth.startswith("jwt") or auth.startswith("public_or_jwt")):
             for _method, params in operations.items():
                 security = params.setdefault("security", [])
                 security.append({"jwt": []})
