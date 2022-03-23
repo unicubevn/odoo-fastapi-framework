@@ -4,6 +4,7 @@
 
 import logging
 
+from werkzeug import Response
 from werkzeug.exceptions import NotFound
 
 from odoo.http import request
@@ -161,6 +162,8 @@ class BaseRestService(AbstractComponent):
             all_args.appedn(secure_params)
             res = method(*all_args)
         self._log_call(method, params, secure_params, res)
+        if isinstance(res, Response):
+            return res
         return self._prepare_response(method, res)
 
     def _validator_delete(self):
