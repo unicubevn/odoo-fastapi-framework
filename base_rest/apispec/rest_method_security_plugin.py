@@ -33,7 +33,7 @@ class RestMethodSecurityPlugin(BasePlugin):
             return
         auth = routing.get("auth", self.spec._params.get("default_auth"))
         is_user_auth = auth in self._supported_user_auths
-        is_public_or_auth = auth.startswith("public_or_")
+        is_public_or_auth = auth and auth.startswith("public_or_")
         if is_user_auth or is_public_or_auth:
             for _method, params in operations.items():
                 security = params.setdefault("security", [])
