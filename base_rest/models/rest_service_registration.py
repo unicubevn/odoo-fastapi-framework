@@ -142,17 +142,7 @@ class RestServiceRegistration(models.AbstractModel):
                 auth = routing["auth"]
                 if auth == "public_or_default":
                     alternative_auth = "public_or_" + default_auth
-                    if getattr(
-                        self.env["ir.http"], "_auth_method_%s" % alternative_auth, None
-                    ):
-                        routing["auth"] = alternative_auth
-                    else:
-                        _logger.debug(
-                            "No %s auth method available: Fallback on %s",
-                            alternative_auth,
-                            default_auth,
-                        )
-                        routing["auth"] = default_auth
+                    routing["auth"] = alternative_auth
             else:
                 routing["auth"] = default_auth
 
