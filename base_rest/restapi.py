@@ -1,6 +1,7 @@
 # Copyright 2018 ACSONE SA/NV
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
+import abc
 import functools
 import json
 
@@ -110,7 +111,8 @@ def method(routes, input_param=None, output_param=None, **kw):
     return decorator
 
 
-class RestMethodParam(object):
+class RestMethodParam(abc.ABC):
+    @abc.abstractmethod
     def from_params(self, service, params):
         """
         This method is called to process the parameters received at the
@@ -122,7 +124,8 @@ class RestMethodParam(object):
         :return: Value into the format expected by the method
         """
 
-    def to_response(self, service, result):
+    @abc.abstractmethod
+    def to_response(self, service, result) -> http.Response:
         """
         This method is called to prepare the result of the call to the method
         in a format suitable by the controller (http.Response or JSON dict).
@@ -132,13 +135,20 @@ class RestMethodParam(object):
         :return: http.Response or JSON dict
         """
 
-    def to_openapi_query_parameters(self, service):
+    @abc.abstractmethod
+    def to_openapi_query_parameters(self, service) -> dict:
         return {}
 
-    def to_openapi_requestbody(self, service):
+    @abc.abstractmethod
+    def to_openapi_requestbody(self, service) -> dict:
         return {}
 
-    def to_openapi_responses(self, service):
+    @abc.abstractmethod
+    def to_openapi_responses(self, service) -> dict:
+        return {}
+
+    @abc.abstractmethod
+    def to_json_schema(self, service, direction) -> dict:
         return {}
 
 
@@ -149,15 +159,20 @@ class BinaryData(RestMethodParam):
         self._mediatypes = mediatypes
         self._required = required
 
-    def to_json_schema(self):
+    def to_json_schema(self, service, direction):
         return {"type": "string", "format": "binary", "required": self._required}
 
     @property
     def binary_content_schema(self):
         return {
-            mediatype: {"schema": self.to_json_schema()}
+            mediatype: {"schema": self.to_json_schema(None, None)}
             for mediatype in self._mediatypes
         }
+
+    def to_openapi_query_parameters(self, service):
+        raise NotImplementedError(
+            "BinaryData are not (?yet?) supported as query paramters"
+        )
 
     def to_openapi_requestbody(self, service):
         return {"content": self.binary_content_schema}
@@ -345,10 +360,7 @@ class MultipartFormData(RestMethodParam):
     def to_openapi_properties(self, service, direction):
         properties = {}
         for key, part in self._parts.items():
-            if isinstance(part, BinaryData):
-                properties[key] = part.to_json_schema()
-            else:
-                properties[key] = part.to_json_schema(service, direction)
+            properties[key] = part.to_json_schema(service, direction)
         return properties
 
     def to_openapi_encoding(self):
@@ -358,7 +370,7 @@ class MultipartFormData(RestMethodParam):
                 encodings[key] = {"contentType": ", ".join(part._mediatypes)}
         return encodings
 
-    def to_multipart_content_schema(self, service, direction):
+    def to_json_schema(self, service, direction):
         res = {
             "multipart/form-data": {
                 "schema": {
@@ -391,11 +403,16 @@ class MultipartFormData(RestMethodParam):
             params[key] = param
         return params
 
+    def to_openapi_query_parameters(self, service):
+        raise NotImplementedError(
+            "MultipartFormData are not (?yet?) supported as query paramters"
+        )
+
     def to_openapi_requestbody(self, service):
-        return {"content": self.to_multipart_content_schema(service, "input")}
+        return {"content": self.to_json_schema(service, "input")}
 
     def to_openapi_responses(self, service):
-        return {"200": {"content": self.to_multipart_content_schema(service, "output")}}
+        return {"200": {"content": self.to_json_schema(service, "output")}}
 
     def to_response(self, service, result):
         raise NotImplementedError()
