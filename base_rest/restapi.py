@@ -111,7 +111,9 @@ def method(routes, input_param=None, output_param=None, **kw):
     return decorator
 
 
-class RestMethodParam(abc.ABC):
+class RestMethodParam(object):
+    __metaclass__ = abc.ABCMeta
+
     @abc.abstractmethod
     def from_params(self, service, params):
         """
@@ -125,7 +127,7 @@ class RestMethodParam(abc.ABC):
         """
 
     @abc.abstractmethod
-    def to_response(self, service, result) -> http.Response:
+    def to_response(self, service, result):
         """
         This method is called to prepare the result of the call to the method
         in a format suitable by the controller (http.Response or JSON dict).
@@ -136,19 +138,19 @@ class RestMethodParam(abc.ABC):
         """
 
     @abc.abstractmethod
-    def to_openapi_query_parameters(self, service) -> dict:
+    def to_openapi_query_parameters(self, service):
         return {}
 
     @abc.abstractmethod
-    def to_openapi_requestbody(self, service) -> dict:
+    def to_openapi_requestbody(self, service):
         return {}
 
     @abc.abstractmethod
-    def to_openapi_responses(self, service) -> dict:
+    def to_openapi_responses(self, service):
         return {}
 
     @abc.abstractmethod
-    def to_json_schema(self, service, direction) -> dict:
+    def to_json_schema(self, service, direction):
         return {}
 
 
