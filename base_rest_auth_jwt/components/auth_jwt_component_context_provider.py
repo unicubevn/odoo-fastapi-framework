@@ -11,7 +11,7 @@ class AbstractAuthJwtAuthenticatedPartnerProvider(AbstractComponent):
     _name = "abstract.auth.jwt.authenticated.partner.provider"
 
     def _get_authenticated_partner_id(self):
-        return request.jwt_partner_id
+        return getattr(request, "jwt_partner_id", None)
 
 
 class BaseRestAuthJwtComponentContextProvider(Component):
