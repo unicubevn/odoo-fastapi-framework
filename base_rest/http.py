@@ -75,6 +75,10 @@ def wrapJsonException(exception, include_description=False):
         for key, value in get_original_headers(environ=environ):
             if key != "Content-Type":
                 _headers.append(key, value)
+        if request and request.endpoint and "cors" in request.endpoint.routing:
+            _headers.append(
+                "Access-Control-Allow-Origin", request.endpoint.routing["cors"]
+            )
         return _headers
 
     exception.get_body = get_body
