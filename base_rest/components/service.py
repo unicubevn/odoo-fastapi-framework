@@ -159,7 +159,7 @@ class BaseRestService(AbstractComponent):
             res = method(*args, **secure_params)
         else:
             all_args = list(*args)
-            all_args.appedn(secure_params)
+            all_args.append(secure_params)
             res = method(*all_args)
         self._log_call(method, params, secure_params, res)
         if isinstance(res, Response):
