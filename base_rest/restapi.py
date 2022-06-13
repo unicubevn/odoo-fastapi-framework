@@ -399,7 +399,8 @@ class MultipartFormData(RestMethodParam):
                     json_param = json.loads(
                         params[key]
                     )  # multipart ony sends its parts as string
-                except json.JSONDecodeError as error:
+                # in python 2can be TypeError, ValueError, maybe other exceptions too?
+                except Exception as error:
                     raise ValidationError(
                         _("{}'s JSON content is malformed: {}".format(key, error))
                     )
