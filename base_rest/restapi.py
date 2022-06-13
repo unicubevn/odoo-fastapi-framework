@@ -390,6 +390,8 @@ class MultipartFormData(RestMethodParam):
         for key, part in self._parts.items():
             param = None
             if isinstance(part, BinaryData):
+                if key not in params and not part._required:
+                    continue
                 param = part.from_params(service, params[key])
             else:
                 # If the part is not Binary, it should be JSON
