@@ -139,7 +139,7 @@ class RestController(Controller):
             controller=self,
         )
         provider = work.component(usage=self._component_context_provider)
-        return provider._get_component_context()
+        return provider._get_component_context(collection)
 
     def make_response(self, data):
         if isinstance(data, Response):

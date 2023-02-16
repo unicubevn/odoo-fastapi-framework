@@ -18,9 +18,9 @@ class BaseRestServiceContextProvider(Component):
     def _get_authenticated_partner_id(self):
         return None
 
-    def _get_component_context(self):
+    def _get_component_context(self, collection=None):
         return {
             "request": self.request,
             "authenticated_partner_id": self.authenticated_partner_id,
-            "collection": self.collection,
+            "collection": collection or self.default_collection,
         }
